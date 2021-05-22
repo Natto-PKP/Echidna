@@ -28,5 +28,5 @@ module.exports = {
 			}
 		})
 	},
-	options: { name: 'guild', aliases: ['gi'], cooldown: 1, modules: './commands/info/guild' }
+	options: { name: 'guild', aliases: ['gi'], cooldown: 1, modules: './commands/info/guild', permissions: { client: ['EMBED_LINKS'] } }
 }

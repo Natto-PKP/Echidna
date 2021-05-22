@@ -1,1 +1,1 @@
-{ "wallpapers": { "active": "default", "arr": [] }, "badges": { "active": null, "arr": [] } }
+{ "wallpapers": { "active": "default", "arr": ["default"] }, "badges": { "active": null, "arr": [] }, "premium": false }
