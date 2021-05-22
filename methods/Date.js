@@ -6,7 +6,7 @@ Date.prototype.duration = function () {
 }
 
 Date.prototype.rest = function () {
-	return (24 - this.getHours()) * 36e5 + (60 - this.getMinutes()) * 6e4 + (60 - this.getSeconds()) * 1e3 + this.getMilliseconds()
+	return (23 - this.getHours()) * 36e5 + (59 - this.getMinutes()) * 6e4 + (59 - this.getSeconds()) * 1e3 + this.getMilliseconds()
 }
 
 const months = { full: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'], half: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Aoû', 'Sep', 'Nov', 'Déc'] }
