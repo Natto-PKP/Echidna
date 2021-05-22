@@ -1,4 +1,12 @@
+const { Message, Client } = require('discord.js')
+
 module.exports = {
+	/**
+	 * @param { object } param0 
+	 * @param { Client } [param0.client] 
+	 * @param { Message } [param0.message] 
+	 * @param { string[] } [param0.args] 
+	 */
 	exec: async function ({ client, message, args }) {
 		const bans = await message.guild.fetchBans()
 		if (!bans.size) return message.sendError("Il n'y a aucun ban sur le serveur.")

@@ -1,4 +1,12 @@
+const { Message, Client } = require('discord.js')
+
 module.exports = {
+	/**
+	 * @param { object } param0 
+	 * @param { Client } [param0.client] 
+	 * @param { Message } [param0.message] 
+	 * @param { string[] } [param0.args] 
+	 */
 	exec: function ({ client, message, args }) {
 		if (!message.guild.emojis.cache.size) return message.sendError("Le serveur n'a pas d'emojis.")
 

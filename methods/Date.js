@@ -1,13 +1,16 @@
-const months = { full: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'], half: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Aoû', 'Sep', 'Nov', 'Déc'] }
-const days = { full: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'], half: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'] }
-const times = { years: { text: 'année', ms: 31557600000 }, months: { text: 'mois', ms: 2592000000 }, days: { text: 'jour', ms: 86400000 }, hours: { text: 'heure', ms: 3600000 }, minutes: { text: 'minute', ms: 60000 }, seconds: { text: 'seconde', ms: 1000 }, milliseconds: { text: 'milliseconde', ms: 1 } }
-
+const times = [['année', 315576e5], ['mois', 2592e6], ['jour', 864e5], ['heure', 36e5], ['minute', 6e4], ['seconde', 1e3], ['milliseconde', 1]]
 Date.prototype.duration = function () {
-	let [date, str] = [Date.now() - this.getTime(), undefined]
-	Object.values(times).some((obj) => (date > obj.ms ? (str = `**${parseInt(date / obj.ms)}** ${parseInt(date / obj.ms) > 1.5 ? (obj.text.endsWith('s') ? obj.text : obj.text + 's') : obj.text}`) : false))
-	return str
+	const date = Date.now() - this.getTime()
+	const [text, ms] = times.find((time) => date > time[1])
+	return '**' + Math.ceil(date / ms) + '** ' + (Math.ceil(date / ms) > 1.5 ? (text.endsWith('s') ? text : text + 's') : text)
 }
 
+Date.prototype.rest = function () {
+	return (24 - this.getHours()) * 36e5 + (60 - this.getMinutes()) * 6e4 + (60 - this.getSeconds()) * 1e3 + this.getMilliseconds()
+}
+
+const months = { full: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'], half: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Aoû', 'Sep', 'Nov', 'Déc'] }
+const days = { full: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'], half: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'] }
 Date.prototype.format = function (form) {
 	if (typeof form != 'string') throw new Error('form must be a string')
 

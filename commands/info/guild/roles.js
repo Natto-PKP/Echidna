@@ -1,4 +1,11 @@
+const { Message, Client } = require('discord.js')
+
 module.exports = {
+	/**
+	 * @param { object } param0 
+	 * @param { Client } [param0.client] 
+	 * @param { Message } [param0.message] 
+	 */
 	exec: function ({ client, message }) {
 		const roles = message.guild.roles.cache.filter((role) => role.name !== '@everyone' && !role.managed)
 		if (!roles.size) return message.sendError("Le serveur n'a pas de rôle.")

@@ -1,10 +1,11 @@
 {
 	"name": "echidna",
-	"version": "1.0.1",
+	"version": "1.1.0",
 	"description": "",
 	"main": "app.js",
 	"dependencies": {
-		"discord-echidna": "^2.0.12"
+		"canvas": "^2.8.0",
+		"discord-echidna": "^2.2.0"
 	},
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1"
