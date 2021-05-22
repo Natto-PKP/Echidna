@@ -81,13 +81,13 @@ module.exports = {
 					}
 
 					docs.profile.update({ active: image.path, arr: image.path }, { path: 'wallpapers' }).save()
-				} else if (reaction.emoji.name === '🔴') return menu.collector.stop('buy')
+				} else if (reaction.emoji.name === '🔴') return menu.collector.stop('stop')
 			})
 		}
 
-		menu.collector.on('end', (reason) => {
+		menu.collector.on('end', (_, reason) => {
 			menu.msg.reactions.removeAll().catch(() => null)
-			menu.msg.edit({ embed: reason == 'buy' ? content({ menu, client, docs }) : { color: client.colors.shop, author: { name: message.member.displayName + ' a quitté(e) la boutique de fonds de profil.', icon_url: message.author.avatarURL({ dynamic: true }) } } }).catch(() => null)
+			menu.msg.edit({ embed: reason == 'limit' ? content({ menu, client, docs }) : { color: client.colors.shop, author: { name: message.member.displayName + ' a quitté(e) la boutique de fonds de profil.', icon_url: message.author.avatarURL({ dynamic: true }) } } }).catch(() => null)
 		})
 	},
 	options: { name: 'background', aliases: ['bg'], cooldown: 8, permissions: { client: ['EMBED_LINKS', 'ADD_REACTIONS'] } }
