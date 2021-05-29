@@ -14,7 +14,7 @@ const content = ({ message, client, doc }) => {
 			name: '\u200B',
 			value: arr
 				.map((type) => {
-					const log = doc.content.arr.find((_) => _.type == type)
+					const log = doc.cache.arr.find((_) => _.type == type)
 					const channel = log && log.channel && message.guild.channels.select(log.channel, { strict: true })
 					if (type != 'join') return '**`' + (channel ? '🟢' : '🟠') + ' ' + type + (type == 'leave' ? ' [preview]' : '') + '`**\n' + `${channel || '\u200B'}`
 					return '**`' + (channel ? '🟢' : '🟠') + ' ' + type + ` [preview]\`**  ${channel || ''}` + '```asciidoc\ncolor :: ' + ((log && log.color) || defaults.rules.join.color) + '\nimage :: ' + (log && log.image ? "'join preview' pour voir votre image" : 'aucune image') + '```'
@@ -54,7 +54,7 @@ module.exports = {
 				case 'channel':
 					const channel = args[1] && message.guild.channels.select(args.slice(1).join(' '), { type: 'text' })
 					if (!channel) return message.sendError('Echidna ne trouve pas le salon indiqué', { remove: true })
-					;(!doc.content.arr.some(({ type }) => type == command) ? doc.update({ type: command, channel: channel.id }, { path: 'arr' }) : doc.update({ channel: channel.id }, { path: 'arr', index: ({ type }) => type == command })).save()
+					;(!doc.cache.arr.some(({ type }) => type == command) ? doc.update({ type: command, channel: channel.id }, { path: 'arr' }) : doc.update({ channel: channel.id }, { path: 'arr', index: ({ type }) => type == command })).save()
 					menu.edit({ embed: content({ message: msg, client, doc }) })
 					break
 
@@ -78,19 +78,19 @@ module.exports = {
 
 					if (string.length > 200) return msg.sendError('Le message personnalisé ne doit pas être supérieur à 200 caractères.', { remove: true })
 					if (string.length < 10) return msg.sendError('Le message personnalisé doit être supérieur à 10 caractères.', { remove: true })
-					;(!doc.content.arr.some(({ type }) => type == command) ? doc.update({ type: command, message: string }, { path: 'arr' }) : doc.update({ message: string }, { path: 'arr', index: ({ type }) => type == command })).save()
+					;(!doc.cache.arr.some(({ type }) => type == command) ? doc.update({ type: command, message: string }, { path: 'arr' }) : doc.update({ message: string }, { path: 'arr', index: ({ type }) => type == command })).save()
 					menu.edit({ embed: content({ message: msg, client, doc }) })
 					break
 
 				case 'preview':
 					if (!['join', 'leave'].includes(command)) return msg.sendError('Ce log ne prend pas en charge les messages personnalisés.', { remove: true })
-					const log = doc.content.arr.find(({ type }) => type == command)
+					const log = doc.cache.arr.find(({ type }) => type == command)
 					if (command == 'leave') message.channel.send(((log && log.message) || defaults.messages['fr'][command]).form({ member: message.member, guild: message.guild }))
 					else message.channel.send({ content: ((log && log.message) || defaults.messages['fr'][command]).form({ member: message.member, guild: message.guild }), files: [{ attachment: await joinImage({ user: message.author, guild: message.guild, color: (log && log.color) || defaults.rules.join.color, image: log && log.image }) }] })
 					break
 
 				default:
-					;(!doc.content.arr.some(({ type }) => type == command) ? doc.update({ type: command }, { path: 'arr' }) : doc.remove({ path: 'arr', index: ({ type }) => type == command })).save()
+					;(!doc.cache.arr.some(({ type }) => type == command) ? doc.update({ type: command }, { path: 'arr' }) : doc.remove({ path: 'arr', index: ({ type }) => type == command })).save()
 					menu.edit({ embed: content({ message: msg, client, doc }) })
 					break
 			}

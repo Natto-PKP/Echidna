@@ -9,7 +9,7 @@ module.exports = {
 	 * @param { Database } [param0.Database] 
 	 */
 	exec: async function ({ client, message, Database }) {
-		const contents = { profile: Database.open(message.member.id, 'user-profile').content }
+		const contents = { profile: Database.open(message.member.id, 'user-profile').cache }
 
 		message.channel.send({
 			embed: {

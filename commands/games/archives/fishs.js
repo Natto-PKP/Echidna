@@ -13,7 +13,7 @@ module.exports = {
 	 * @param { Database } [param0.Database]  
 	 */
 	exec: function ({ message, client, Database }) {
-		const { inventory } = Database.open(message.member.id, 'user-tools').content.fishing
+		const { inventory } = Database.open(message.member.id, 'user-tools').cache.fishing
 
 		const format = (array, pages) => ({
 			embed: {

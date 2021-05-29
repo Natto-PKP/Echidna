@@ -28,7 +28,7 @@ module.exports = {
 		collector.on('collect', (msg) => {
 			const [command] = msg.content.toLowerCase().split(/\s+/)
 			const tool = tools.find(({ types }) => types.includes(command))
-			if (docs.tools.content[tool.types[0]].tool >= tool.arr.length) return message.sendError('Votre outil est déjà à son niveau max')
+			if (docs.tools.cache[tool.types[0]].tool >= tool.arr.length) return message.sendError('Votre outil est déjà à son niveau max')
 		})
 	},
 	options: { name: 'tools', aliases: ['tool'], cooldown: 8, permissions: { client: ['EMBED_LINKS'] } }

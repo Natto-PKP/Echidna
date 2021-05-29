@@ -14,7 +14,7 @@ module.exports = {
 		if (prefix.length > 3) return message.sendError('Le prefix ne peut pas être supérieur à 3 caractères.')
 
 		const doc = Database.open(message.guild.id, 'guild-config')
-		if (doc.content.prefix == prefix) return message.sendError("Votre nouveau prefix est identique à l'actuel.")
+		if (doc.cache.prefix == prefix) return message.sendError("Votre nouveau prefix est identique à l'actuel.")
 		doc.set(prefix, { path: 'prefix' }).save()
 		message.channel.send('**`| 🔑`** Le prefix a été modifié: **`' + prefix + '`**')
 	},

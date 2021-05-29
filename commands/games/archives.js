@@ -14,7 +14,7 @@ module.exports = {
 			embed: {
 				color: client.colors.archives,
 				author: { name: '📁 Vos archives', icon_url: client.user.displayAvatarURL({ dynamic: true }) },
-				description: ['**`| fishs` -** Liste des poissons `[' + docs.tools.content.fishing.inventory.length + ' connu(s)]`'].join('\n'),
+				description: ['**`| fishs` -** Liste des poissons `[' + docs.tools.cache.fishing.inventory.length + ' connu(s)]`'].join('\n'),
 				footer: { text: 'exemple: "archives fishs' }
 			}
 		})

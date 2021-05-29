@@ -16,7 +16,7 @@ module.exports = {
 		const categories = { config: ['🛠 Configurations', []], fun: ['🧶 Occupation', []], games: ['🎲 Jeux', []], info: ['📰 Informations', []], utils: ['🧪 Outils', []] }
 		Commands.array.filter(({ options: { permissions: { flags } } }) => !flags.includes('owner')).forEach(({ options: { name, modules, category } }) => categories[category][1].push(name + (modules.length ? '[' + modules.length + ']' : '')))
 		message.channel.send({
-			embed: { color: client.colors.base, author: { name: "💌 Page d'aide de Echidna", icon_url: message.guild.iconURL({ dynamic: true }) }, description: '**`| `  Le prefix de la guilde est: `' + Database.open(message.guild.id, 'guild-config').content.prefix + '`**', fields: Object.values(categories).map(([name, arr]) => ({ name, value: '`' + arr.join('` `') + '`' })) }
+			embed: { color: client.colors.base, author: { name: "💌 Page d'aide de Echidna", icon_url: message.guild.iconURL({ dynamic: true }) }, description: '**`| `  Le prefix de la guilde est: `' + Database.open(message.guild.id, 'guild-config').cache.prefix + '`**', fields: Object.values(categories).map(([name, arr]) => ({ name, value: '`' + arr.join('` `') + '`' })) }
 		})
 	},
 	options: { name: 'help', aliases: ['h'], cooldown: 3, permissions: { client: ['EMBED_LINKS'] } }

@@ -6,11 +6,11 @@ const wallpapers = require('../../../_storage/images/wallpapers.json')
 const content = ({ menu, client, docs }) => {
 	const image = menu.images[menu.page]
 	const embed = {
-		author: { name: '[Background shop] - ' + image.name + (docs.profile.content.wallpapers.arr.includes(image.path) ? ' (Déjà acheté)' : '') },
+		author: { name: '[Background shop] - ' + image.name + (docs.profile.cache.wallpapers.arr.includes(image.path) ? ' (Déjà acheté)' : '') },
 		description: '```diff\n+ ' + image.tags.join(', ') + '```\n```css\nfont: ' + image._colors.font + '\naccent: ' + image._colors.accent + '```',
-		color: docs.profile.content.wallpapers.arr.includes(image.path) ? client.colors.active : client.colors.shop,
+		color: docs.profile.cache.wallpapers.arr.includes(image.path) ? client.colors.active : client.colors.shop,
 		image: { url: image.link },
-		footer: { text: (menu.images.length > 1 ? 'Item ' + (menu.page + 1) + ' / ' + menu.images.length + ' •' : '') + docs.eco.content.tickets.form() + ' 🎟️ • ' + docs.eco.content.money.form() + ' 💴 | path: ' + image.path }
+		footer: { text: (menu.images.length > 1 ? 'Item ' + (menu.page + 1) + ' / ' + menu.images.length + ' •' : '') + docs.eco.cache.tickets.form() + ' 🎟️ • ' + docs.eco.cache.money.form() + ' 💴 | path: ' + image.path }
 	}
 
 	if (image.price && (embed.fields = [])) {
@@ -45,14 +45,14 @@ module.exports = {
 
 				if (reaction.emoji.name === '🛒') {
 					const image = menu.images[menu.page]
-					if (image.tags.includes('premium') && !docs.profile.content.premium) return message.sendError("Ce background n'est disponible seulement pour les membres premium.").then((_) => _.delete({ timeout: 6000 }).catch(() => null))
+					if (image.tags.includes('premium') && !docs.profile.cache.premium) return message.sendError("Ce background n'est disponible seulement pour les membres premium.").then((_) => _.delete({ timeout: 6000 }).catch(() => null))
 
 					if (image.price) {
-						if (image.price.money && image.price.tickets && docs.eco.content.money < image.price.money && docs.eco.content.tickets < image.price.tickets)
-							return message.sendError('**' + (image.price.money - docs.eco.content.money).form() + '** 💴 yens manquants et **' + (image.price.tickets - docs.eco.content.tickets).form() + '** 🎟️ tickets manquants.').then((_) => _.delete({ timeout: 6000 }).catch(() => null))
-						if (image.price.money && docs.eco.content.money < image.price.money) return message.sendError('**' + (image.price.money - docs.eco.content.money).form() + '** 💴 yens manquants.').then((_) => _.delete({ timeout: 6000 }).catch(() => null))
-						if (image.price.tickets && docs.eco.content.tickets < image.price.tickets) return message.sendError('**' + (image.price.tickets - docs.eco.content.tickets).form() + '** 🎟️ tickets manquants.').then((_) => _.delete({ timeout: 6000 }).catch(() => null))
-						docs.eco.update({ money: image.price.money ? docs.eco.content.money - image.price.money : docs.eco.content.money, tickets: image.price.tickets ? docs.eco.content.tickets - image.price.tickets : docs.eco.content.tickets }).save()
+						if (image.price.money && image.price.tickets && docs.eco.cache.money < image.price.money && docs.eco.cache.tickets < image.price.tickets)
+							return message.sendError('**' + (image.price.money - docs.eco.cache.money).form() + '** 💴 yens manquants et **' + (image.price.tickets - docs.eco.cache.tickets).form() + '** 🎟️ tickets manquants.').then((_) => _.delete({ timeout: 6000 }).catch(() => null))
+						if (image.price.money && docs.eco.cache.money < image.price.money) return message.sendError('**' + (image.price.money - docs.eco.cache.money).form() + '** 💴 yens manquants.').then((_) => _.delete({ timeout: 6000 }).catch(() => null))
+						if (image.price.tickets && docs.eco.cache.tickets < image.price.tickets) return message.sendError('**' + (image.price.tickets - docs.eco.cache.tickets).form() + '** 🎟️ tickets manquants.').then((_) => _.delete({ timeout: 6000 }).catch(() => null))
+						docs.eco.update({ money: image.price.money ? docs.eco.cache.money - image.price.money : docs.eco.cache.money, tickets: image.price.tickets ? docs.eco.cache.tickets - image.price.tickets : docs.eco.cache.tickets }).save()
 					}
 
 					docs.profile.update({ active: image.path, arr: image.path }, { path: 'wallpapers' }).save()
@@ -64,20 +64,20 @@ module.exports = {
 			})
 		} else {
 			const image = menu.images[menu.page]
-			if (docs.profile.content.wallpapers.arr.includes(image.path)) return
+			if (docs.profile.cache.wallpapers.arr.includes(image.path)) return
 
 			await Promise.all(['🔴', '🛒'].map((e) => menu.msg.react(e).catch(() => null)))
 			menu.collector = menu.msg.createReactionCollector((r, u) => ['🔴', '🛒'].includes(r.emoji.name) && u.id == message.member.id, { idle: 45000, max: 1 })
 			menu.collector.on('collect', (reaction) => {
 				if (reaction.emoji.name === '🛒') {
-					if (image.tags.includes('premium') && !docs.profile.content.premium) return message.sendError("Ce background n'est disponible seulement pour les membres premium.").then((_) => _.delete({ timeout: 6000 }).catch(() => null))
+					if (image.tags.includes('premium') && !docs.profile.cache.premium) return message.sendError("Ce background n'est disponible seulement pour les membres premium.").then((_) => _.delete({ timeout: 6000 }).catch(() => null))
 
 					if (image.price) {
-						if (image.price.money && image.price.tickets && docs.eco.content.money < image.price.money && docs.eco.content.tickets < image.price.tickets)
-							return message.sendError('**' + (image.price.money - docs.eco.content.money).form() + '** 💴 yens manquants et **' + (image.price.tickets - docs.eco.content.tickets).form() + '** 🎟️ tickets manquants.').then((_) => _.delete({ timeout: 6000 }).catch(() => null))
-						if (image.price.money && docs.eco.content.money < image.price.money) return message.sendError('**' + (image.price.money - docs.eco.content.money).form() + '** 💴 yens manquants.').then((_) => _.delete({ timeout: 6000 }).catch(() => null))
-						if (image.price.tickets && docs.eco.content.tickets < image.price.tickets) return message.sendError('**' + (image.price.tickets - docs.eco.content.tickets).form() + '** 🎟️ tickets manquants.').then((_) => _.delete({ timeout: 6000 }).catch(() => null))
-						docs.eco.update({ money: image.price.money ? docs.eco.content.money - image.price.money : docs.eco.content.money, tickets: image.price.tickets ? docs.eco.content.tickets - image.price.tickets : docs.eco.content.tickets }).save()
+						if (image.price.money && image.price.tickets && docs.eco.cache.money < image.price.money && docs.eco.cache.tickets < image.price.tickets)
+							return message.sendError('**' + (image.price.money - docs.eco.cache.money).form() + '** 💴 yens manquants et **' + (image.price.tickets - docs.eco.cache.tickets).form() + '** 🎟️ tickets manquants.').then((_) => _.delete({ timeout: 6000 }).catch(() => null))
+						if (image.price.money && docs.eco.cache.money < image.price.money) return message.sendError('**' + (image.price.money - docs.eco.cache.money).form() + '** 💴 yens manquants.').then((_) => _.delete({ timeout: 6000 }).catch(() => null))
+						if (image.price.tickets && docs.eco.cache.tickets < image.price.tickets) return message.sendError('**' + (image.price.tickets - docs.eco.cache.tickets).form() + '** 🎟️ tickets manquants.').then((_) => _.delete({ timeout: 6000 }).catch(() => null))
+						docs.eco.update({ money: image.price.money ? docs.eco.cache.money - image.price.money : docs.eco.cache.money, tickets: image.price.tickets ? docs.eco.cache.tickets - image.price.tickets : docs.eco.cache.tickets }).save()
 					}
 
 					docs.profile.update({ active: image.path, arr: image.path }, { path: 'wallpapers' }).save()
