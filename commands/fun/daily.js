@@ -19,8 +19,7 @@ module.exports = {
 			files: [{ attachment: './_storage/icons/daily_' + doc.content.daily.acc + '.png', name: `acc.png` }],
 			embed: {
 				color: client.colors.base,
-				thumbnail: { url: 'attachment://acc.png' },
-				author: { name: 'Vous venez de récupérer votre aide quotidienne !', icon_url: message.author.displayAvatarURL({ dynamic: true }) },
+				author: { name: 'Vous venez de récupérer votre aide quotidienne !', icon_url: 'attachment://acc.png' },
 				description: '`| ' + doc.content.money.form() + ' 💴` < `' + reward[0].form() + ' 💴`' + (reward[1] ? '\n`| ' + doc.content.tickets.form() + ' 🎟` < `' + reward[1].form() + ' 🎟`' : '')
 			}
 		})

@@ -15,13 +15,13 @@ module.exports = {
 		if (!app) return message.sendError("Modules disponibles: 'youtube'")
 		if (!message.member.voice.channel) return message.sendError("Vous n'êtes pas dans un salon vocal.")
 
-		fetch(`https://discord.com/api/v8/channels/${channel.id}/invites`, {
+		fetch(`https://discord.com/api/v8/channels/${message.member.voice.channel.id}/invites`, {
 			method: 'POST',
-			body: { max_age: 86400, max_uses: 0, target_application_id: app.ID, target_type: 2, temporary: false, validate: null },
+			body: JSON.stringify({ max_age: 86400, max_uses: 0, target_application_id: app.ID, target_type: 2, temporary: false, validate: null }),
 			headers: { Authorization: 'Bot ' + client.token, 'Content-Type': 'application/json' }
 		})
 			.then((res) => res.json())
-			.then((invite) => message.channel.send(invite.code))
+			.then((invite) => message.channel.send('https://discord.com/invite/' + invite.code))
 	},
 	options: { name: 'together', cooldown: 3 }
 }

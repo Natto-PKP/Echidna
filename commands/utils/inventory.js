@@ -20,5 +20,5 @@ module.exports = {
 			}
 		})
 	},
-	options: { name: 'inventory', aliases: ['inv'], cooldown: 1, modules: './commands/utils/inventory', permissions: { client: ['EMBED_LINKS'] } }
+	options: { name: 'inventory', aliases: ['inv'], cooldown: 3, modules: './commands/utils/inventory', permissions: { client: ['EMBED_LINKS'] } }
 }

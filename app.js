@@ -7,4 +7,4 @@ readdirSync('./methods').forEach((file) => require('./methods/' + file))
 readdirSync('./collections').forEach((collection) => Collections.add(collection.split('.')[0], require('./collections/' + collection)))
 readdirSync('./events').forEach((event) => (existsSync('./events/' + event + '/index.js') ? echidna.on(event, require('./events/' + event + '/index.js')) : echidna.on(event, (params) => readdirSync('./events/' + event).forEach((file) => require('./events/' + event + '/' + file)(params)))))
 
-echidna.commands({ directory: { path: './commands', categories: true }, prefixes: { collection: 'guild-config', properties: 'prefix' } })
+echidna.commands({ directory: { path: './commands', categories: true }, prefixes: '/' }) // prefixes: { collection: 'guild-config', properties: 'prefix' } })

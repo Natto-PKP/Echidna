@@ -5,3 +5,14 @@ String.prototype.toWords = function () {
 String.prototype.shuffle = function () {
 	return this.split('').sort(() => Math.random() - 0.5).join('')
 }
+
+String.prototype.form = function ({ member, guild, exp, eco }) {
+	let result = this
+	if (member) result = result.replace(/{mention}|{username}|{nickname}|{discriminator}|{tag}|{id}/g, (v) => ({ mention: member, username: member.user.username, nickname: member.displayName, discriminator: member.user.discriminator, tag: member.user.tag, id: member.id }[v.replace(/{|}/g, '')]))
+	if (guild) result = result.replace(/{guild}/g, (v) => ({ guild: guild.name }[v.replace(/{|}/g, '')]))
+	return result
+}
+
+String.prototype.bar = function (empty, full, max, number) {
+	return ''.padEnd(Math.ceil(this.length / max * 100 * (number / 100)), full).padEnd(number, empty)
+}

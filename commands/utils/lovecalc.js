@@ -8,7 +8,7 @@ module.exports = {
      * @param { string[] } [param0.args] 
      */
 	exec: async function ({ message, args }) {
-		const member = (args[0] && message.guild.members.select(args.join(' '))) || message.guild.me
+		const member = (args[0] && (await message.guild.members.select(args.join(' ')))) || message.guild.me
 		const calc = (parseInt(message.author.id) + parseInt(member.id)) % 101
 		const ctx = createCanvas(500, 150).getContext('2d')
 

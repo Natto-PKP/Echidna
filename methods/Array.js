@@ -10,3 +10,11 @@ Array.prototype.partly = function (search, { depth } = {}) {
 Array.prototype.shuffle = function () {
 	return this.sort(() => Math.random() - 0.5)
 }
+
+Array.prototype.partition = function (funct) {
+	if (typeof funct != 'function') throw new Error('funct is not a function')
+
+	const [a, b] = [[], []]
+	for (let i = 0; i < this.length; i++) funct(this[i], i, this) ? a.push(this[i]) : b.push(this[i])
+	return [a, b]
+}
